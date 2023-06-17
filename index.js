@@ -140,7 +140,7 @@ app.get('/auth/steam/callback', passport.authenticate('steam', {
 });
 
 app.get('/done', function (req, res) {
-  res.send('Done');
+  res.send('Your accounts were added to the database! You can now close this page!');
 });
 
 app.listen(config.port, function () {
