@@ -75,6 +75,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.get('/', function (req, res) {
+	// Check if useragent is Discordbot
+	if (req.headers['user-agent'].includes('Discordbot')) {
+		// send some custom html with meta tags
+		return res.send(`
+			<html>
+				<head>
+					<meta property="og:title" content="Link your account!" />
+					<meta property="og:description" content="Link your account with the Stats bot" />
+				</head>
+			</html>
+			`);
+	}
 	res.redirect('/login/discord');
 });
 
