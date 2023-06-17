@@ -1,0 +1,26 @@
+{
+	"discord": {
+		"clientID": "",
+		"clientSecret": "",
+		"callbackURL": "http://link.localhost/auth/discord/callback",
+		"scope": ["identify"]
+	},
+	"steam": {
+		"returnURL": "http://link.localhost/auth/steam/callback",
+		"realm": "http://link.localhost",
+		"apiKey": ""
+	},
+	"session": {
+		"secret": "changeme"
+	},
+	"database": {
+		"host": "127.0.0.1",
+		"port": "3306",
+		"user": "",
+		"password": "",
+		"database": "playerstats"
+	},
+	"port": 9002,
+	"encryptionKey": "changeme",
+	"cookieSecret": "changeme"
+}
