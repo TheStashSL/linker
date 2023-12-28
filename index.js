@@ -22,6 +22,8 @@ const pool = mariadb.createPool(config.database);
 pool.getConnection()
 	.then(conn => {
 		console.log(`${colors.cyan("[INFO]")} Connected to database: ${colors.green(conn.threadId)}`);
+		// Create table if it doesn't exist
+		conn.query("CREATE TABLE IF NOT EXISTS AccountLinks (discord_id VARCHAR(255) NOT NULL, steam_id VARCHAR(255) NOT NULL, PRIMARY KEY (discord_id))")
 		conn.release();
 	})
 	.catch(err => {
