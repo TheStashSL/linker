@@ -23,7 +23,7 @@ pool.getConnection()
 	.then(conn => {
 		console.log(`${colors.cyan("[INFO]")} Connected to database: ${colors.green(conn.threadId)}`);
 		// Create table if it doesn't exist
-		conn.query("CREATE TABLE IF NOT EXISTS AccountLinks (discord_id VARCHAR(255) NOT NULL, steam_id VARCHAR(255) NOT NULL, PRIMARY KEY (discord_id))")
+		conn.query("CREATE TABLE IF NOT EXISTS `AccountLinks` (`discord_id` varchar(255) NOT NULL,`identifier` varchar(100) NOT NULL,PRIMARY KEY (`discord_id`),UNIQUE KEY `AccountLinks_UNIQUE` (`identifier`))")
 		conn.release();
 	})
 	.catch(err => {
@@ -120,7 +120,7 @@ app.get('/auth/steam/callback', passport.authenticate('steam', {
 	// Check if either Discord or Steam ID already exists in the database
 	pool.getConnection()
 		.then(conn => {
-			conn.query("SELECT * FROM AccountLinks WHERE discord_id = ? OR steam_id = ?", [discordID, steamID])
+			conn.query("SELECT * FROM AccountLinks WHERE discord_id = ? OR identifier = ?", [discordID, `${steamID}@steam`])
 				.then(rows => {
 					if (rows.length > 0) {
 						// IDs already exist, inform the user
@@ -128,7 +128,7 @@ app.get('/auth/steam/callback', passport.authenticate('steam', {
 						res.send('Discord or Steam IDs already exist in the database.');
 					} else {
 						// IDs don't exist, insert into the database
-						conn.query("INSERT INTO AccountLinks (discord_id, steam_id) VALUES (?, ?)", [discordID, steamID])
+						conn.query("INSERT INTO AccountLinks (discord_id, identifier) VALUES (?, ?)", [discordID, `${steamID}@steam`])
 							.then(() => {
 								console.log(`${colors.cyan("[INFO]")} Added user to the database: ${colors.green(discordID)} - ${colors.green(steamID)}}`);
 								conn.release();
